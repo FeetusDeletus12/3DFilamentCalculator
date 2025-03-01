@@ -6,31 +6,75 @@
     <title>Filament Cost Calculator</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; background-color: #f8f9fa; }
-        .container { max-width: 400px; margin: auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); }
-        .error { border: 2px solid red; }
-        .btn-dark-mode { margin-top: 10px; }
-        .sidebar-buttons { position: fixed; top: 50%; left: 10px; transform: translateY(-50%); display: flex; flex-direction: column; gap: 10px; }
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 450px;
+            margin: auto;
+            padding: 30px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+        }
+        .error {
+            border: 2px solid red;
+        }
+        .btn-dark-mode {
+            margin-top: 10px;
+        }
+        .sidebar-buttons {
+            position: fixed;
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        h3 {
+            margin-top: 20px;
+        }
+        .form-control {
+            margin-bottom: 15px;
+        }
+        .btn {
+            width: 100%;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
 
     <div class="container mt-5">
-        <h2 class="mb-3">Filament Cost Calculator</h2>
-        <label>Total Filament Cost ($):</label>
-        <input type="number" id="totalCost" class="form-control" step="0.01" required>
+        <h2 class="mb-4">Filament Cost Calculator</h2>
         
-        <label>Total Filament Weight (g):</label>
-        <input type="number" id="totalWeight" class="form-control" required>
-        
-        <label>Filament Used (g):</label>
-        <input type="number" id="usedWeight" class="form-control" required>
-        
-        <button class="btn btn-primary mt-3" onclick="calculateCost()">Calculate</button>
-        <button class="btn btn-secondary mt-3" onclick="copyResult()">Copy Result</button>
+        <!-- Input fields -->
+        <div class="form-group">
+            <label>Total Filament Cost ($):</label>
+            <input type="number" id="totalCost" class="form-control" step="0.01" required>
+        </div>
+
+        <div class="form-group">
+            <label>Total Filament Weight (g):</label>
+            <input type="number" id="totalWeight" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label>Filament Used (g):</label>
+            <input type="number" id="usedWeight" class="form-control" required>
+        </div>
+
+        <!-- Action buttons -->
+        <button class="btn btn-primary" onclick="calculateCost()">Calculate</button>
+        <button class="btn btn-secondary" onclick="copyResult()">Copy Result</button>
+        <button class="btn btn-warning" onclick="clearFields()">Clear</button>
         <button class="btn btn-dark btn-dark-mode" onclick="toggleDarkMode()">Toggle Dark Mode</button>
         
-        <h3 id="result" class="mt-3"></h3>
+        <!-- Result output -->
+        <h3 id="result"></h3>
     </div>
 
     <script>
@@ -38,11 +82,13 @@
             let totalCost = parseFloat(document.getElementById("totalCost").value);
             let totalWeight = parseFloat(document.getElementById("totalWeight").value);
             let usedWeight = parseFloat(document.getElementById("usedWeight").value);
-            
+
+            // Clear previous errors
             document.getElementById("totalCost").classList.remove("error");
             document.getElementById("totalWeight").classList.remove("error");
             document.getElementById("usedWeight").classList.remove("error");
-            
+
+            // Validate inputs
             if (isNaN(totalCost) || totalCost <= 0) {
                 document.getElementById("totalCost").classList.add("error");
             }
@@ -52,23 +98,25 @@
             if (isNaN(usedWeight) || usedWeight < 0) {
                 document.getElementById("usedWeight").classList.add("error");
             }
+
             if (isNaN(totalCost) || isNaN(totalWeight) || isNaN(usedWeight) || totalWeight <= 0 || usedWeight < 0) {
                 document.getElementById("result").innerText = "Please enter valid values.";
                 return;
             }
-            
+
+            // Calculate cost
             let costPerGram = totalCost / totalWeight;
             let usedCost = costPerGram * usedWeight;
             let resultText = `Cost per gram: $${costPerGram.toFixed(4)}\nCost of ${usedWeight}g filament: $${usedCost.toFixed(2)}`;
             document.getElementById("result").innerText = resultText;
-            
+
             // Save values in localStorage
             localStorage.setItem("totalCost", totalCost);
             localStorage.setItem("totalWeight", totalWeight);
             localStorage.setItem("usedWeight", usedWeight);
             localStorage.setItem("resultText", resultText);
         }
-        
+
         function copyResult() {
             let result = document.getElementById("result").innerText;
             if (result) {
@@ -76,13 +124,23 @@
                 alert("Result copied to clipboard!");
             }
         }
-        
+
         function toggleDarkMode() {
             document.body.classList.toggle("bg-dark");
             document.body.classList.toggle("text-light");
             document.querySelector(".container").classList.toggle("bg-secondary");
         }
-        
+
+        function clearFields() {
+            document.getElementById("totalCost").value = "";
+            document.getElementById("totalWeight").value = "";
+            document.getElementById("usedWeight").value = "";
+            document.getElementById("result").innerText = "";
+            document.getElementById("totalCost").classList.remove("error");
+            document.getElementById("totalWeight").classList.remove("error");
+            document.getElementById("usedWeight").classList.remove("error");
+        }
+
         // Load saved values
         window.onload = function() {
             if (localStorage.getItem("totalCost")) {
