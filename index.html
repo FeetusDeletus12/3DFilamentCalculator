@@ -10,9 +10,15 @@
         .container { max-width: 400px; margin: auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); }
         .error { border: 2px solid red; }
         .btn-dark-mode { margin-top: 10px; }
+        .sidebar-buttons { position: fixed; top: 50%; left: 10px; transform: translateY(-50%); display: flex; flex-direction: column; gap: 10px; }
     </style>
 </head>
 <body>
+    <div class="sidebar-buttons">
+        <a href="filament-suppliers.html" class="btn btn-info">Filament Suppliers</a>
+        <a href="help.html" class="btn btn-warning">Help</a>
+    </div>
+
     <div class="container mt-5">
         <h2 class="mb-3">Filament Cost Calculator</h2>
         <label>Total Filament Cost ($):</label>
@@ -29,15 +35,6 @@
         <button class="btn btn-dark btn-dark-mode" onclick="toggleDarkMode()">Toggle Dark Mode</button>
         
         <h3 id="result" class="mt-3"></h3>
-        
-        <h3 class="mt-4">Common Filament Suppliers</h3>
-        <ul class="list-group">
-            <li class="list-group-item"><a href="https://www.amazon.com/s?k=3d+printer+filament" target="_blank">Amazon</a></li>
-            <li class="list-group-item"><a href="https://www.matterhackers.com/store/c/3d-printer-filament" target="_blank">MatterHackers</a></li>
-            <li class="list-group-item"><a href="https://www.prusa3d.com/category/filaments/" target="_blank">Prusa</a></li>
-            <li class="list-group-item"><a href="https://www.polymaker.com/product-category/filaments/" target="_blank">Polymaker</a></li>
-            <li class="list-group-item"><a href="https://overture3d.com/collections/all" target="_blank">Overture</a></li>
-        </ul>
     </div>
 
     <script>
