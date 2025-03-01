@@ -3,99 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Filament Cost Calculator</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <title>Your GitHub Page</title>
+
+    <!-- Add Google Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Optional CSS for circular buttons -->
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; background-color: #f8f9fa; }
-        .container { max-width: 400px; margin: auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); }
-        .error { border: 2px solid red; }
-        .btn-dark-mode { margin-top: 10px; }
-        .sidebar-buttons { position: fixed; top: 50%; left: 10px; transform: translateY(-50%); display: flex; flex-direction: column; gap: 10px; }
+        .sidebar-buttons {
+            position: fixed;
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .sidebar-buttons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            text-decoration: none;
+            color: white;
+            font-size: 24px;
+        }
     </style>
 </head>
 <body>
+
+    <!-- Sidebar with multiple buttons -->
     <div class="sidebar-buttons">
-        <a href="filament-suppliers.html" class="btn btn-info">Filament Suppliers</a>
-        <a href="help.html" class="btn btn-warning">Help</a>
+        <!-- Button for Settings Page -->
+        <a href="settings.html" class="btn btn-success">
+            <span class="material-icons">settings</span>
+        </a>
+
+        <!-- Button for Home Page -->
+        <a href="home.html" class="btn btn-primary">
+            <span class="material-icons">home</span>
+        </a>
+
+        <!-- Button for Profile Page -->
+        <a href="profile.html" class="btn btn-secondary">
+            <span class="material-icons">account_circle</span>
+        </a>
     </div>
 
-    <div class="container mt-5">
-        <h2 class="mb-3">Filament Cost Calculator</h2>
-        <label>Total Filament Cost ($):</label>
-        <input type="number" id="totalCost" class="form-control" step="0.01" required>
-        
-        <label>Total Filament Weight (g):</label>
-        <input type="number" id="totalWeight" class="form-control" required>
-        
-        <label>Filament Used (g):</label>
-        <input type="number" id="usedWeight" class="form-control" required>
-        
-        <button class="btn btn-primary mt-3" onclick="calculateCost()">Calculate</button>
-        <button class="btn btn-secondary mt-3" onclick="copyResult()">Copy Result</button>
-        <button class="btn btn-dark btn-dark-mode" onclick="toggleDarkMode()">Toggle Dark Mode</button>
-        
-        <h3 id="result" class="mt-3"></h3>
-    </div>
-
-    <script>
-        function calculateCost() {
-            let totalCost = parseFloat(document.getElementById("totalCost").value);
-            let totalWeight = parseFloat(document.getElementById("totalWeight").value);
-            let usedWeight = parseFloat(document.getElementById("usedWeight").value);
-            
-            document.getElementById("totalCost").classList.remove("error");
-            document.getElementById("totalWeight").classList.remove("error");
-            document.getElementById("usedWeight").classList.remove("error");
-            
-            if (isNaN(totalCost) || totalCost <= 0) {
-                document.getElementById("totalCost").classList.add("error");
-            }
-            if (isNaN(totalWeight) || totalWeight <= 0) {
-                document.getElementById("totalWeight").classList.add("error");
-            }
-            if (isNaN(usedWeight) || usedWeight < 0) {
-                document.getElementById("usedWeight").classList.add("error");
-            }
-            if (isNaN(totalCost) || isNaN(totalWeight) || isNaN(usedWeight) || totalWeight <= 0 || usedWeight < 0) {
-                document.getElementById("result").innerText = "Please enter valid values.";
-                return;
-            }
-            
-            let costPerGram = totalCost / totalWeight;
-            let usedCost = costPerGram * usedWeight;
-            let resultText = `Cost per gram: $${costPerGram.toFixed(4)}\nCost of ${usedWeight}g filament: $${usedCost.toFixed(2)}`;
-            document.getElementById("result").innerText = resultText;
-            
-            // Save values in localStorage
-            localStorage.setItem("totalCost", totalCost);
-            localStorage.setItem("totalWeight", totalWeight);
-            localStorage.setItem("usedWeight", usedWeight);
-            localStorage.setItem("resultText", resultText);
-        }
-        
-        function copyResult() {
-            let result = document.getElementById("result").innerText;
-            if (result) {
-                navigator.clipboard.writeText(result);
-                alert("Result copied to clipboard!");
-            }
-        }
-        
-        function toggleDarkMode() {
-            document.body.classList.toggle("bg-dark");
-            document.body.classList.toggle("text-light");
-            document.querySelector(".container").classList.toggle("bg-secondary");
-        }
-        
-        // Load saved values
-        window.onload = function() {
-            if (localStorage.getItem("totalCost")) {
-                document.getElementById("totalCost").value = localStorage.getItem("totalCost");
-                document.getElementById("totalWeight").value = localStorage.getItem("totalWeight");
-                document.getElementById("usedWeight").value = localStorage.getItem("usedWeight");
-                document.getElementById("result").innerText = localStorage.getItem("resultText");
-            }
-        }
-    </script>
 </body>
 </html>
